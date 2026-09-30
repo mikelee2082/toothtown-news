@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The ToothTown Tribune</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f1a2e;
+    --muted: #6b6480;
+    --paper: #fdfbff;
+    --line: #e4ddf0;
+    --accent: #7b3fe4;
+    --alert: #d7263d;
+    --sky: #eaf3ff;
+    --ok: #1f9d55;
+    --warn: #e08a00;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #f1ecf8;
+    color: var(--ink);
+    font-family: "Nunito", system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  .topbar {
+    background: var(--ink); color: #fff; font-size: 13px;
+  }
+  .topbar .wrap { display: flex; justify-content: space-between; gap: 12px; padding: 6px 16px; flex-wrap: wrap; }
+
+  header.masthead {
+    background: var(--paper);
+    border-bottom: 4px double var(--ink);
+    text-align: center;
+    padding: 22px 0 12px;
+  }
+  .masthead h1 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(34px, 7vw, 64px);
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+  .masthead h1 span { color: var(--accent); }
+  .tagline { color: var(--muted); font-style: italic; margin: 2px 0 10px; }
+  nav { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; }
+  nav a { color: var(--ink); text-decoration: none; }
+  nav a.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+
+  .breaking {
+    background: var(--alert); color: #fff; font-weight: 800;
+    overflow: hidden; white-space: nowrap;
+  }
+  .breaking .wrap { display: flex; align-items: center; gap: 12px; padding: 8px 16px; }
+  .breaking .label { background: #fff; color: var(--alert); padding: 2px 8px; border-radius: 3px; font-size: 13px; flex-shrink: 0; }
+  .ticker { overflow: hidden; flex: 1; }
+  .ticker span { display: inline-block; padding-left: 100%; animation: scroll 28s linear infinite; }
+  @keyframes scroll { to { transform: translateX(-100%); } }
+
+  main.wrap { display: grid; grid-template-columns: 1fr 300px; gap: 28px; padding-top: 26px; padding-bottom: 40px; }
+  @media (max-width: 820px) { main.wrap { grid-template-columns: 1fr; } }
+
+  article { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 26px; }
+  .kicker { color: var(--alert); font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
+  article h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(28px, 4.5vw, 42px);
+    line-height: 1.15; margin: 6px 0 10px;
+  }
+  .dek { font-size: 19px; color: var(--muted); margin: 0 0 14px; }
+  .byline { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 8px 0; margin-bottom: 20px; }
+  .byline b { color: var(--ink); }
+
+  .hero {
+    border-radius: 8px; overflow: hidden; margin-bottom: 8px;
+    background: linear-gradient(#4a5470, #7d87a3);
+  }
+  .hero svg { display: block; width: 100%; height: auto; }
+  .caption { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  article p { font-size: 17px; }
+  blockquote {
+    margin: 22px 0; padding: 14px 20px; border-left: 5px solid var(--accent);
+    background: #f5efff; border-radius: 0 8px 8px 0; font-size: 18px; font-style: italic;
+  }
+  blockquote cite { display: block; font-style: normal; font-weight: 700; font-size: 14px; margin-top: 6px; color: var(--muted); }
+
+  .good-news {
+    background: #e9f8ef; border: 2px solid var(--ok); border-radius: 10px;
+    padding: 16px 20px; margin: 24px 0 6px;
+  }
+  .good-news h3 { margin: 0 0 6px; color: var(--ok); }
+  .good-news ul { margin: 0; padding-left: 20px; }
+
+  aside { display: flex; flex-direction: column; gap: 20px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+  .card h3 { margin: 0 0 12px; font-family: "Playfair Display", Georgia, serif; font-size: 20px; }
+
+  .status-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 15px; gap: 8px; }
+  .status-row:last-child { border-bottom: 0; }
+  .pill { font-size: 12px; font-weight: 800; padding: 2px 9px; border-radius: 999px; color: #fff; white-space: nowrap; }
+  .pill.ok { background: var(--ok); }
+  .pill.warn { background: var(--warn); }
+  .pill.bad { background: var(--alert); }
+
+  .weather { background: var(--sky); }
+  .forecast { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+  .forecast div { background: #fff; border-radius: 8px; padding: 8px 4px; font-size: 13px; }
+  .forecast .icon { font-size: 26px; line-height: 1.3; }
+  .forecast b { display: block; }
+
+  .more a { display: block; color: var(--ink); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--line); font-weight: 600; }
+  .more a:last-child { border-bottom: 0; }
+  .more a:hover { color: var(--accent); }
+
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 16px 40px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span id="today">Thursday</span>
+    <span>✨ Serving the Fairy Realm since 1742</span>
+  </div>
+</div>
+
+<header class="masthead">
+  <h1>The ToothTown <span>Tribune</span></h1>
+  <p class="tagline">All the news that's fit to sparkle</p>
+  <nav>
+    <a href="#" class="active">News</a>
+    <a href="#">Weather</a>
+    <a href="#">Collections</a>
+    <a href="#">Pillow Reports</a>
+    <a href="#">Wand Sport</a>
+  </nav>
+</header>
+
+<div class="breaking">
+  <div class="wrap">
+    <span class="label">BREAKING</span>
+    <div class="ticker"><span>Storm clears over ToothTown • Fairy flights cleared for take-off tonight • Guild confirms every delayed tooth will be collected • Glitter reserves fully restocked •</span></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <article>
+    <div class="kicker">Weather Chaos</div>
+    <h2>Great Glitter Storm Grounds Tooth Fairy Fleet</h2>
+    <p class="dek">Thousands of tooth collections delayed as wild winds and sparkle-hail sweep across ToothTown. Flights resume tonight.</p>
+    <div class="byline">By <b>Pip Moonwhistle</b>, Chief Weather Correspondent · <span id="pubdate">Updated this morning</span></div>
+
+    <div class="hero">
+      <svg viewBox="0 0 800 380" role="img" aria-label="Stormy night over ToothTown with fairies sheltering">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2c2f4a"/>
+            <stop offset="1" stop-color="#5c6488"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="380" fill="url(#sky)"/>
+        <!-- clouds -->
+        <g fill="#3b3f5c">
+          <ellipse cx="160" cy="70" rx="140" ry="45"/><ellipse cx="260" cy="55" rx="110" ry="42"/>
+          <ellipse cx="560" cy="60" rx="160" ry="48"/><ellipse cx="690" cy="80" rx="120" ry="40"/>
+        </g>
+        <!-- lightning -->
+        <polygon points="430,40 400,130 430,130 395,220 470,110 440,110 470,40" fill="#ffe066"/>
+        <!-- glitter hail -->
+        <g fill="#f2d7ff">
+          <circle cx="90" cy="150" r="4"/><circle cx="150" cy="200" r="3"/><circle cx="230" cy="170" r="4"/>
+          <circle cx="310" cy="230" r="3"/><circle cx="520" cy="160" r="4"/><circle cx="600" cy="210" r="3"/>
+          <circle cx="680" cy="170" r="4"/><circle cx="740" cy="230" r="3"/><circle cx="360" cy="180" r="3"/>
+          <circle cx="60" cy="240" r="3"/>
+        </g>
+        <!-- ground -->
+        <rect y="300" width="800" height="80" fill="#34385a"/>
+        <!-- tooth-shaped houses -->
+        <g fill="#fbfaf5" stroke="#cfcadf" stroke-width="3">
+          <path d="M120 300 v-70 q0 -30 30 -30 q15 0 20 10 q5 -10 20 -10 q30 0 30 30 v70 z"/>
+          <path d="M540 300 v-90 q0 -34 34 -34 q18 0 24 12 q6 -12 24 -12 q34 0 34 34 v90 z"/>
+          <path d="M320 300 v-55 q0 -24 24 -24 q12 0 16 8 q4 -8 16 -8 q24 0 24 24 v55 z"/>
+        </g>
+        <!-- lit windows -->
+        <g fill="#ffd86b">
+          <rect x="155" y="245" width="14" height="16" rx="3"/><rect x="185" y="245" width="14" height="16" rx="3"/>
+          <rect x="580" y="230" width="16" height="18" rx="3"/><rect x="612" y="230" width="16" height="18" rx="3"/>
+          <rect x="352" y="262" width="14" height="14" rx="3"/>
+        </g>
+        <!-- grounded fairy with umbrella -->
+        <g transform="translate(450 250)">
+          <path d="M-30 0 q30 -40 60 0 z" fill="#b388ff"/>
+          <line x1="0" y1="0" x2="0" y2="40" stroke="#fff" stroke-width="3"/>
+          <circle cx="0" cy="30" r="8" fill="#ffd9c2"/>
+          <ellipse cx="-12" cy="38" rx="9" ry="5" fill="#dff4ff" opacity=".85"/>
+          <ellipse cx="12" cy="38" rx="9" ry="5" fill="#dff4ff" opacity=".85"/>
+        </g>
+      </svg>
+    </div>
+    <p class="caption">A fairy shelters from sparkle-hail outside the Molar Street Depot. Photo: ToothTown Tribune</p>
+
+    <p>A powerful storm swept through ToothTown <span class="yday">yesterday</span>, bringing gale-force winds, thunder and dangerous "sparkle-hail" that forced the Royal Tooth Fairy Guild to ground its entire flying fleet for the night.</p>
+
+    <p>Fairy wings are delicate, and Guild safety rules forbid flying when winds reach more than 40 wand-lengths per second. By early evening, gusts over the Enamel Mountains were nearly double that.</p>
+
+    <p>"We had fairies all packed and ready with their coin pouches," said one depot manager. "But you simply can't fly a fairy through a storm like that. Safety first — always."</p>
+
+    <blockquote>
+      "We know how exciting it is to lose a tooth, and we are so sorry to every child who had to wait. Please keep your tooth safe under your pillow. Our fairies will be out tonight, and nobody will be missed."
+      <cite>— Queen Opaline Brightwing, Head of the Royal Tooth Fairy Guild</cite>
+    </blockquote>
+
+    <p>Meteorologists at the ToothTown Weather Tower say the storm moved out to sea early this morning, leaving clear skies and gentle breezes — perfect flying weather. Extra fairies have been called in from the Wisdom Valley and Baby Tooth Bay depots to help clear the backlog.</p>
+
+    <p>The Guild has asked families to leave teeth exactly where they are. Fairies keep careful lists, and every delayed collection will be completed tonight. Some fairies have even hinted that children who waited so patiently may find a little extra sparkle for their trouble.</p>
+
+    <div class="good-news">
+      <h3>✅ What this means for you</h3>
+      <ul>
+        <li>Your tooth is safe and on the list.</li>
+        <li>Leave it under your pillow again tonight.</li>
+        <li>Fairy flights resume after sunset.</li>
+        <li>No need to write a new note — fairies remember!</li>
+      </ul>
+    </div>
+  </article>
+
+  <aside>
+    <div class="card">
+      <h3>Collection Status</h3>
+      <div class="status-row"><span>Last night's collections</span><span class="pill bad">DELAYED</span></div>
+      <div class="status-row"><span>Fairy flight clearance</span><span class="pill ok">CLEARED</span></div>
+      <div class="status-row"><span>Tonight's collections</span><span class="pill ok">ON SCHEDULE</span></div>
+      <div class="status-row"><span>Coin &amp; glitter supplies</span><span class="pill ok">FULL</span></div>
+      <div class="status-row"><span>Wisdom Valley depot</span><span class="pill warn">BUSY</span></div>
+    </div>
+
+    <div class="card weather">
+      <h3>ToothTown Weather</h3>
+      <div class="forecast">
+        <div><div class="icon">⛈️</div><b>Last night</b>Glitter storm</div>
+        <div><div class="icon">⛅</div><b>Today</b>Clearing</div>
+        <div><div class="icon">🌙</div><b>Tonight</b>Perfect flying</div>
+      </div>
+    </div>
+
+    <div class="card more">
+      <h3>More Headlines</h3>
+      <a href="#">Record number of wiggly teeth reported this spring</a>
+      <a href="#">Fairy apprentice passes pillow-landing exam</a>
+      <a href="#">Why fairies love a tooth that's been brushed</a>
+      <a href="#">Molar Street Depot gets new rainbow roof</a>
+    </div>
+  </aside>
+</main>
+
+<footer>© The ToothTown Tribune · Printed on moonbeam paper · Delivered by owl</footer>
+
+<script>
+  // Keeps dates correct whichever day the page is viewed
+  (function () {
+    var now = new Date();
+    var y = new Date(now); y.setDate(now.getDate() - 1);
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var opts = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+    document.getElementById("today").textContent = now.toLocaleDateString(undefined, opts);
+    document.getElementById("pubdate").textContent = "Updated " + now.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) + " today";
+    document.querySelectorAll(".yday").forEach(function (el) {
+      el.textContent = "on " + days[y.getDay()] + " night";
+    });
+  })();
+</script>
+</body>
+</html>
